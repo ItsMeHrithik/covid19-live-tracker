@@ -10,13 +10,14 @@ import {
 import { useState, useEffect } from "react";
 import InfoBox from "./components/InfoBox";
 import Map from "./components/Maps";
-import Table from './components/Table'
+import Table from "./components/Table";
+import {sortData} from "./util";
 
 function App() {
   const [countryName, setcountryName] = useState("WorldWide");
   const [countries, setCountries] = useState([]);
   const [countryInfo, setcountryInfo] = useState({});
-  const [tableData, settableData] = useState([])
+  const [tableData, settableData] = useState([]);
 
   useEffect(() => {
     fetch("https://disease.sh/v3/covid-19/all")
@@ -55,7 +56,8 @@ function App() {
             name: country.country,
             value: country.countryInfo.iso2,
           }));
-          settableData(data);
+          const sortedData = sortData(data);
+          settableData(sortedData);
           setCountries(countries);
         });
     };
